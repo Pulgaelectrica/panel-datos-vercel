@@ -2,50 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=800, height=480" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel de Datos</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      width: 800px;
-      height: 480px;
-      background: #000;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
-
-    #grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(2, 1fr);
-      width: 100%;
-      height: 100%;
+      height: 100vh;
+      background: black;
+      color: white;
+      font-family: sans-serif;
     }
-
     .card {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      color: white;
-      transition: background-color 0.5s ease;
-      border: none;
-      padding: 5px;
-      text-align: center;
-      font-size: 18px;
+      justify-content: center;
+      font-size: 2rem;
+      transition: background 0.3s;
     }
+    .name { font-size: 1.2rem; opacity: 0.8; }
+    .price { font-size: 2rem; font-weight: bold; }
+    .diff { font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <div id="btc" class="card"><div class="name">BTC</div><div class="price">—</div><div class="diff">—</div></div>
+  <div id="gold" class="card"><div class="name">Oro</div><div class="price">—</div><div class="diff">—</div></div>
+  <div id="sp500" class="card"><div class="name">S&P500</div><div class="price">—</div><div class="diff">—</div></div>
+  <div id="nvda" class="card"><div class="name">NVIDIA</div><div class="price">—</div><div class="diff">—</div></div>
+  <div id="tsla" class="card"><div class="name">Tesla</div><div class="price">—</div><div class="diff">—</div></div>
+  <div id="aapl" class="card"><div class="name">Apple</div><div class="price">—</div><div class="diff">—</div></div>
+  <div id="amzn" class="card"><div class="name">Amazon</div><div class="price">—</div><div class="diff">—</div></div>
+  <div id="googl" class="card"><div class="name">Google</div><div class="price">—</div><div class="diff">—</div></div>
 
-    .symbol {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .price {
-      font-size: 26px;
-      margin-top: 5px;
-    }
-
-    .diff {
-      font-size: 18px;
-
+  <script src="script.js"></script>
+</body>
+</html>
