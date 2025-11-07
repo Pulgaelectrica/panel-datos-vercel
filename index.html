@@ -1,23 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=800, height=480">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=800, height=480" />
   <title>Panel de Datos</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="grid">
-    <div class="card" id="btc">BTC</div>
-    <div class="card" id="oro">Oro</div>
-    <div class="card" id="sp500">SP500</div>
-    <div class="card" id="nvda">NVDA</div>
-    <div class="card" id="tsla">TSLA</div>
-    <div class="card" id="aapl">AAPL</div>
-    <div class="card" id="amzn">AMZN</div>
-    <div class="card" id="googl">GOOGL</div>
-  </div>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 800px;
+      height: 480px;
+      background: #000;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
 
-  <script src="script.js"></script>
-</body>
-</html>
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      width: 100%;
+      height: 100%;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      transition: background-color 0.5s ease;
+      border: none;
+      padding: 5px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .symbol {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 26px;
+      margin-top: 5px;
+    }
+
+    .diff {
+      font-size: 18px;
+
