@@ -1,50 +1,71 @@
-const symbols = {
-  btc: "BINANCE:BTCUSDT",
-  oro: "OANDA:XAU_EUR",
-  sp500: "INDEX:SPX",
-  nvda: "NASDAQ:NVDA",
-  tsla: "NASDAQ:TSLA",
-  aapl: "NASDAQ:AAPL",
-  amzn: "NASDAQ:AMZN",
-  googl: "NASDAQ:GOOGL",
-};
+// script.js — versión robusta y optimizada
+
+const symbols = [
+  { id: "btc", name: "BINANCE:BTCUSDT" },
+  { id: "gold", name: "OANDA:XAU_EUR" },
+  { id: "sp500", name: "INDEX:SPX" },
+  { id: "nvda", name: "NASDAQ:NVDA" },
+  { id: "tsla", name: "NASDAQ:TSLA" },
+  { id: "aapl", name: "NASDAQ:AAPL" },
+  { id: "amzn", name: "NASDAQ:AMZN" },
+  { id: "googl", name: "NASDAQ:GOOGL" }
+];
+
+// URL base de tu proyecto Vercel
+const BASE_URL = "https://panel-datos-vercel-git-main-alfonso-orbans-projects.vercel.app";
 
 async function fetchData(symbol) {
   try {
-    const res = await fetch(`/api/finnhub-proxy?symbol=${encodeURIComponent(symbol)}`);
-    if (!res.ok) {
-      console.warn('Fetch error', res.status, symbol);
+    const response = await fetch(`${BASE_URL}/api/finnhub-proxy?symbol=${symbol}`);
+    if (!response.ok) throw new Error(`Error ${response.status} al obtener ${symbol}`);
+    const data = await response.json();
+
+    // Validar campos esperados
+    if (!data || typeof data.c !== "number") {
+      console.warn(`Datos inválidos para ${symbol}`, data);
       return null;
     }
-    const data = await res.json();
+
     return data;
-  } catch (err) {
-    console.error('Fetch exception', err);
+  } catch (error) {
+    console.error("Error fetchData", error);
     return null;
   }
 }
 
-function updateCard(id, data) {
+async function updateCard(id, symbol) {
   const card = document.getElementById(id);
   if (!card) return;
-  if (!data || data.c === undefined || data.c === null) {
-    card.style.backgroundColor = '#444';
-    card.innerHTML = id.toUpperCase() + '<br><small>Error</small>';
+
+  const data = await fetchData(symbol);
+
+  const priceElem = card.querySelector(".price");
+  const diffElem = card.querySelector(".diff");
+
+  if (!data) {
+    priceElem.textContent = "—";
+    diffElem.textContent = "Error";
+    card.style.background = "#777";
     return;
   }
-  const price = Number(data.c);
-  const change = Number(data.d) || 0;
-  const changePct = Number(data.dp) || 0;
-  card.style.backgroundColor = change >= 0 ? '#006600' : '#8b0000';
-  card.innerHTML = id.toUpperCase() + '<br>' + price.toFixed(2) + '<br>' + change.toFixed(2) + ' (' + changePct.toFixed(2) + '%)';
+
+  const price = data.c.toFixed(2);
+  const diff = data.d.toFixed(2);
+  const diffPercent = data.dp.toFixed(2);
+
+  priceElem.textContent = `${price}`;
+  diffElem.textContent = `${diff} (${diffPercent}%)`;
+
+  card.style.background = diff >= 0 ? "#005f2f" : "#5f0000";
 }
 
 async function updateAll() {
-  for (const [id, sym] of Object.entries(symbols)) {
-    const data = await fetchData(sym);
-    updateCard(id, data);
+  for (const { id, name } of symbols) {
+    await updateCard(id, name);
   }
 }
 
+// Actualiza al cargar y cada 60 segundos
 updateAll();
 setInterval(updateAll, 60000);
+
