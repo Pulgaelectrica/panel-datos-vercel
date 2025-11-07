@@ -1,20 +1,31 @@
-export default async function handler(req, res) {
-  const symbol = req.query.symbol || 'AAPL';
-  const apiKey = process.env.FINNHUB_API_KEY;
+// /api/finnhub-proxy.js
 
-  if (!apiKey) {
-    return res.status(500).json({ error: 'No API key found' });
+import fetch from "node-fetch";
+
+export default async function handler(req, res) {
+  const { symbol } = req.query;
+  const token = process.env.FINNHUB_API_KEY;
+
+  if (!symbol || !token) {
+    return res.status(400).json({ error: "Missing symbol or API key" });
   }
 
   try {
-    const response = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${apiKey}`);
+    const response = await fetch(
+      `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(symbol)}&token=${token}`
+    );
+
     if (!response.ok) {
-      throw new Error(`Finnhub error: ${response.status}`);
+      const text = await response.text();
+      console.error("Finnhub error:", text);
+      return res.status(response.status).json({ error: `Finnhub error: ${response.status}` });
     }
 
     const data = await response.json();
-    res.status(200).json(data);
+    return res.status(200).json(data);
+
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Internal server error:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
