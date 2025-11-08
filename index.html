@@ -1,29 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel Datos</title>
-<style>
-  html, body { margin:0; padding:0; width:800px; height:480px; background:#000; font-family:sans-serif; overflow:hidden;}
-  #grid { display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(2,1fr); width:100%; height:100%; gap:5px; }
-  .card { display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; transition: background-color 0.5s ease; border:none; padding:5px; }
-  .card canvas { width:90%; height:40%; }
-  .price { font-size:1.5em; margin-bottom:5px; }
-  .diff { font-size:1em; }
-</style>
-</head>
-<body>
-<div id="grid">
-  <div id="btc" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-  <div id="eth" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-  <div id="aapl" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-  <div id="tsla" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-  <div id="nvda" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-  <div id="amzn" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-  <div id="googl" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-  <div id="sp500" class="card"><div class="price">—</div><div class="diff">—</div><canvas></canvas></div>
-</div>
-<script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel Cotizaciones</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="grid">
+      <div class="card" id="BINANCE_BTCUSDT">
+        <div class="symbol">BTC / EUR</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+      <div class="card" id="OANDA_XAU_EUR">
+        <div class="symbol">Oro / EUR</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+      <div class="card" id="INDEX_SPX">
+        <div class="symbol">S&amp;P 500</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+      <div class="card" id="NASDAQ_NVDA">
+        <div class="symbol">NVIDIA</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+      <div class="card" id="NASDAQ_TSLA">
+        <div class="symbol">TESLA</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+      <div class="card" id="NASDAQ_AAPL">
+        <div class="symbol">APPLE</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+      <div class="card" id="NASDAQ_AMZN">
+        <div class="symbol">AMAZON</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+      <div class="card" id="NASDAQ_GOOGL">
+        <div class="symbol">GOOGLE</div>
+        <div class="value">-</div>
+        <canvas class="chart"></canvas>
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
 </html>
