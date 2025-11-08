@@ -1,12 +1,12 @@
 const symbols = [
-  { id: "btc", name: "BINANCE:BTCUSDT", currency: "€" },
-  { id: "eth", name: "BINANCE:ETHUSDT", currency: "€" },
-  { id: "aapl", name: "AAPL", currency: "$" },
-  { id: "tsla", name: "TSLA", currency: "$" },
-  { id: "nvda", name: "NVDA", currency: "$" },
-  { id: "amzn", name: "AMZN", currency: "$" },
-  { id: "googl", name: "GOOGL", currency: "$" },
-  { id: "sp500", name: "SPY", currency: "$" }
+  { id: "btc", name: "BINANCE:BTCUSDT" },
+  { id: "gold", name: "OANDA:XAU_USD" },
+  { id: "sp500", name: "SPY" },
+  { id: "nvda", name: "NVDA" },
+  { id: "tsla", name: "TSLA" },
+  { id: "aapl", name: "AAPL" },
+  { id: "amzn", name: "AMZN" },
+  { id: "googl", name: "GOOGL" }
 ];
 
 const BASE_URL = "";
