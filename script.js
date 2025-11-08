@@ -1,65 +1,66 @@
 const symbols = [
-  { id: "btc", name: "BINANCE:BTCUSDT" },
-  { id: "gold", name: "OANDA:XAU_USD" },
-  { id: "sp500", name: "SPY" },
-  { id: "nvda", name: "NVDA" },
-  { id: "tsla", name: "TSLA" },
-  { id: "aapl", name: "AAPL" },
-  { id: "amzn", name: "AMZN" },
-  { id: "googl", name: "GOOGL" }
+    { id: "btc", name: "BINANCE:BTCUSDT", currency: "€" },
+    { id: "gold", name: "OANDA:XAU_EUR", currency: "€" },
+    { id: "sp500", name: "INDEX:SPX", currency: "$" },
+    { id: "nvda", name: "NASDAQ:NVDA", currency: "$" },
+    { id: "tsla", name: "NASDAQ:TSLA", currency: "$" },
+    { id: "aapl", name: "NASDAQ:AAPL", currency: "$" },
+    { id: "amzn", name: "NASDAQ:AMZN", currency: "$" },
+    { id: "googl", name: "NASDAQ:GOOGL", currency: "$" }
 ];
 
-const BASE_URL = "";
+const BASE_URL = "https://panel-datos-vercel-4nuc1rvvm-alfonso-orbans-projects.vercel.app/"; // Reemplaza con tu URL Vercel
 
 async function fetchData(symbol) {
-  try {
-    const response = await fetch(`${BASE_URL}/api/finnhub-proxy?symbol=${symbol}`);
-    if (!response.ok) throw new Error(`Error ${response.status} al obtener ${symbol}`);
-    const data = await response.json();
-    if (!data || typeof data.c !== "number") return null;
-    return data;
-  } catch (error) {
-    console.error("Error fetchData", error);
-    return null;
-  }
+    try {
+        const res = await fetch(`${BASE_URL}/api/finnhub-proxy?symbol=${symbol}`);
+        if (!res.ok) throw new Error(`Error ${res.status} al obtener ${symbol}`);
+        const data = await res.json();
+        if (!data || typeof data.c !== "number") return null;
+        return data;
+    } catch (err) {
+        console.error("fetchData error", err);
+        return null;
+    }
 }
 
 async function updateCard(id, symbol, currency) {
-  const card = document.getElementById(id);
-  if (!card) return;
+    const card = document.getElementById(id);
+    if (!card) return;
 
-  const data = await fetchData(symbol);
-  const priceElem = card.querySelector(".price");
-  const diffElem = card.querySelector(".diff");
+    const data = await fetchData(symbol);
+    const priceElem = card.querySelector(".price");
+    const diffElem = card.querySelector(".diff");
+    const canvas = card.querySelector(".mini-chart");
 
-  if (!data) {
-    priceElem.textContent = "—";
-    diffElem.textContent = "Error";
-    card.style.background = "#777";
-    return;
-  }
+    if (!data) {
+        priceElem.textContent = "—";
+        diffElem.textContent = "Error";
+        card.style.background = "#777";
+        return;
+    }
 
-  priceElem.textContent = `${currency}${data.c.toFixed(2)}`;
-  diffElem.textContent = `${data.d.toFixed(2)} (${data.dp.toFixed(2)}%)`;
-  card.style.background = data.d >= 0 ? "#005f2f" : "#5f0000";
+    const price = data.c.toFixed(2);
+    const diff = data.d.toFixed(2);
+    const diffPercent = data.dp.toFixed(2);
 
-  // Mini gráfico simple
-  const canvas = card.querySelector("canvas");
-  if (canvas && canvas.getContext) {
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = data.d >= 0 ? "#0f0" : "#f00";
-    const height = canvas.height * Math.min(Math.abs(data.dp)/10, 1);
-    ctx.fillRect(0, canvas.height - height, canvas.width, height);
-  }
+    priceElem.textContent = `${currency}${price}`;
+    diffElem.textContent = `${diff} (${diffPercent}%)`;
+    card.style.background = diff >= 0 ? "#005f2f" : "#5f0000";
+
+    // Mini-gráfica
+    new Chart(canvas, {
+        type: 'line',
+        data: { labels:[0,1], datasets:[{label:'', data:[data.pc, data.c], borderColor:'#fff', borderWidth:2, fill:false, tension:0.3}] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}} }
+    });
 }
 
 async function updateAll() {
-  for (const { id, name, currency } of symbols) {
-    await updateCard(id, name, currency);
-  }
+    for (const {id, name, currency} of symbols) {
+        await updateCard(id, name, currency);
+    }
 }
 
 updateAll();
 setInterval(updateAll, 60000);
-

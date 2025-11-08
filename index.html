@@ -1,55 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Panel Cotizaciones</title>
-    <link rel="stylesheet" href="/style.css">
-  </head>
-  <body>
-    <div class="grid">
-      <div class="card" id="BINANCE_BTCUSDT">
-        <div class="symbol">BTC / EUR</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-      <div class="card" id="OANDA_XAU_EUR">
-        <div class="symbol">Oro / EUR</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-      <div class="card" id="INDEX_SPX">
-        <div class="symbol">S&amp;P 500</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-      <div class="card" id="NASDAQ_NVDA">
-        <div class="symbol">NVIDIA</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-      <div class="card" id="NASDAQ_TSLA">
-        <div class="symbol">TESLA</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-      <div class="card" id="NASDAQ_AAPL">
-        <div class="symbol">APPLE</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-      <div class="card" id="NASDAQ_AMZN">
-        <div class="symbol">AMAZON</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-      <div class="card" id="NASDAQ_GOOGL">
-        <div class="symbol">GOOGLE</div>
-        <div class="value">-</div>
-        <canvas class="chart"></canvas>
-      </div>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Datos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial; background: #111; color: #fff; margin:0; padding:20px; display:flex; flex-wrap:wrap; gap:15px; justify-content:center;}
+        .card { width:200px; height:180px; background:#333; border-radius:12px; padding:10px; display:flex; flex-direction:column; justify-content:space-between; transition: background 0.3s; box-shadow:0 4px 10px rgba(0,0,0,0.5);}
+        .price { font-size:1.5em; font-weight:bold;}
+        .diff { font-size:1em;}
+        .mini-chart { width:100%; height:60px;}
+        h1 { width:100%; text-align:center; margin-bottom:20px;}
+    </style>
+</head>
+<body>
+    <h1>Panel de Datos Financieros</h1>
 
-    <script src="/script.js"></script>
-  </body>
+    <div class="card" id="btc"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+    <div class="card" id="gold"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+    <div class="card" id="sp500"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+    <div class="card" id="nvda"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+    <div class="card" id="tsla"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+    <div class="card" id="aapl"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+    <div class="card" id="amzn"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+    <div class="card" id="googl"><div class="price"></div><div class="diff"></div><canvas class="mini-chart"></canvas></div>
+
+    <script src="script.js"></script>
+</body>
 </html>
